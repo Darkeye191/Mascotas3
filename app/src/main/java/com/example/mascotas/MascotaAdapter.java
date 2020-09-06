@@ -13,11 +13,13 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class MascotaAdapter extends RecyclerView.Adapter<MascotaAdapter.MascotaViewHoler> {
+    ArrayList<Mascota> mascotas;
+
     public MascotaAdapter(ArrayList<Mascota> mascotas){
         this.mascotas = mascotas;
     }
 
-    ArrayList<Mascota> mascotas;
+
 
     @NonNull
     @Override
