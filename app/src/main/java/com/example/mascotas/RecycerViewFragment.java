@@ -12,9 +12,10 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-public class RecycerViewFragment extends Fragment {
+public class RecycerViewFragment extends Fragment implements  IRecyclerViewFragmentView {
     ArrayList<Mascota> mascotas;
     private RecyclerView listaMascotas;
+    private IRecyclerViewFragmentPresenter presenter;
 
     @Nullable
     @Override
@@ -22,20 +23,10 @@ public class RecycerViewFragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_lista, container, false);
         listaMascotas = (RecyclerView) v.findViewById(R.id.rvPerfil);
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-
-        listaMascotas.setLayoutManager(llm);
-        inicializarListaMascotas();
-        incializarAdapter();
+        presenter = new RecyclerViewFragmentPresenter(this, getContext());
         return v;
     }
 
-    public MascotaAdapter adaptador;
-    public void incializarAdapter(){
-        adaptador = new MascotaAdapter(mascotas);
-        listaMascotas.setAdapter(adaptador);
-    }
 
     public void inicializarListaMascotas(){
         mascotas = new ArrayList<Mascota>();
@@ -47,5 +38,23 @@ public class RecycerViewFragment extends Fragment {
         mascotas.add(new Mascota("pia", R.drawable.p2, 0));
         mascotas.add(new Mascota("chato", R.drawable.p1, 0));
         mascotas.add(new Mascota("wera", R.drawable.p2, 0));
+    }
+
+    @Override
+    public void generarLinearLayoutVertical() {
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        listaMascotas.setLayoutManager(llm);
+    }
+
+    @Override
+    public MascotaAdapter crearAdaptador(ArrayList<Mascota> mascotas) {
+        MascotaAdapter adaptador = new MascotaAdapter(mascotas, getActivity());
+        return adaptador;
+    }
+
+    @Override
+    public void inicializarAdaptadorRV(MascotaAdapter adapter) {
+        listaMascotas.setAdapter(adapter);
     }
 }

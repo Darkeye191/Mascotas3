@@ -1,6 +1,7 @@
 package com.example.mascotas;
 
 public class Mascota {
+    private int id;
     private String nombre;
     private int foto;
     private int rate;
@@ -9,6 +10,10 @@ public class Mascota {
         this.nombre = nombre;
         this.foto = foto;
         this.rate = rate;
+    }
+
+    public Mascota() {
+
     }
 
     public String getNombre() {
@@ -33,5 +38,13 @@ public class Mascota {
 
     public void setRate(int rate) {
         this.rate = rate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

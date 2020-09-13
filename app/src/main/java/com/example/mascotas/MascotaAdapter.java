@@ -1,5 +1,6 @@
 package com.example.mascotas;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,11 +15,16 @@ import java.util.ArrayList;
 
 public class MascotaAdapter extends RecyclerView.Adapter<MascotaAdapter.MascotaViewHoler> {
     ArrayList<Mascota> mascotas;
+    Activity activity;
 
-    public MascotaAdapter(ArrayList<Mascota> mascotas){
+    public MascotaAdapter(ArrayList<Mascota> mascotas, Activity activity){
         this.mascotas = mascotas;
+        this.activity = activity;
     }
 
+    public MascotaAdapter(ArrayList<Mascota> mascotas) {
+        this.mascotas = mascotas;
+    }
 
 
     @NonNull
@@ -29,14 +35,20 @@ public class MascotaAdapter extends RecyclerView.Adapter<MascotaAdapter.MascotaV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MascotaViewHoler mascotaViewHoler, int position) {
-        Mascota mascota = mascotas.get(position);
+    public void onBindViewHolder(@NonNull final MascotaViewHoler mascotaViewHoler, int position) {
+        final Mascota mascota = mascotas.get(position);
         mascotaViewHoler.imgfoto.setImageResource(mascota.getFoto());
-        mascotaViewHoler.tvrate.setText(mascota.getRate()+"");
+        mascotaViewHoler.tvrate.setText(String.valueOf(mascota.getRate())+" Likes");
         mascotaViewHoler.tvnombre.setText(mascota.getNombre());
+
         mascotaViewHoler.btnhueso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ConstructorContactos constructorContactos = new ConstructorContactos(activity);
+                constructorContactos.darlike(mascota);
+                mascotaViewHoler.tvrate.setText(String.valueOf(constructorContactos.obtenerLike(mascota)+" Likes"));
+
+
 
             }
         });
@@ -53,6 +65,7 @@ public class MascotaAdapter extends RecyclerView.Adapter<MascotaAdapter.MascotaV
         private TextView tvnombre;
         private TextView tvrate;
         private ImageView btnhueso;
+
 
         public MascotaViewHoler(@NonNull View itemView) {
             super(itemView);
